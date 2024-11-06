@@ -120,7 +120,7 @@ def query_documents(query, n_results=3):
     context = "\n\n".join(relevant_chunks)
     
     # Use Groq to generate response
-    prompt = f"""You are a helpful assistant to help users with their questions. Your name is ZenitAI and you are created by Sidharth Sajith. Based on the following context, answer the question: {query}
+    prompt = f"""You are a helpful assistant to help users with their questions. Based on the following context, answer the question: {query}
 
 Context:
 {context}
