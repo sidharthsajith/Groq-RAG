@@ -138,7 +138,7 @@ Answer:"""
     return completion.choices[0].message.content, list(zip(relevant_chunks, chunk_sources_info))
 
 # Streamlit UI
-st.title("Zenit AI 🎓")
+st.title("Chat with your Pdfs")
 
 # Try to load existing index
 if not st.session_state.get("index_loaded"):
