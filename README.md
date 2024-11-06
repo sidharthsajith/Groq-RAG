@@ -1,8 +1,8 @@
 # Groq-RAG
 Ask questions, get answers from your documents in realtime using Groq and FAISS
-## Zenit AI Documentation
+## Documentation
 
-This document provides a comprehensive explanation of the Zenit AI code, including setup, workflow, and the technologies involved.
+This document provides a comprehensive explanation of the code, including setup, workflow, and the technologies involved.
 
 ### Setup
 
@@ -37,7 +37,7 @@ GROQ_API_KEY=<YOUR_GROQ_API_KEY>
 
 ### Workflow
 
-Zenit AI follows a three-step workflow:
+This code follows a three-step workflow:
 
 1. **Data Ingestion:** Users can upload PDF documents through the Streamlit interface. The code extracts text from these PDFs and splits them into smaller chunks.
 2. **Indexing:** Zenit uses Sentence Transformers to generate embeddings for each text chunk. FAISS, a library for efficient similarity search, is used to create an index for these embeddings.
@@ -47,7 +47,7 @@ Zenit AI follows a three-step workflow:
 
 **Streamlit:**
 
-Zenit AI leverages Streamlit to create a user-friendly web application for document upload and querying. Streamlit allows for building interactive UIs with minimal coding effort.
+This program leverages Streamlit to create a user-friendly web application for document upload and querying. Streamlit allows for building interactive UIs with minimal coding effort.
 
 **PyPDF2:**
 
@@ -79,4 +79,4 @@ Pickle is used to store the text chunks and their corresponding source informati
 
 ### Conclusion
 
-Zenit AI demonstrates a powerful combination of technologies for building a question-answering system. It extracts knowledge from documents, indexes them efficiently, and leverages NLP models to provide informative answers to user queries. `
+This program demonstrates a powerful combination of technologies for building a question-answering system. It extracts knowledge from documents, indexes them efficiently, and leverages NLP models to provide informative answers to user queries. `
