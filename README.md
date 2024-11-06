@@ -40,7 +40,7 @@ GROQ_API_KEY=<YOUR_GROQ_API_KEY>
 This code follows a three-step workflow:
 
 1. **Data Ingestion:** Users can upload PDF documents through the Streamlit interface. The code extracts text from these PDFs and splits them into smaller chunks.
-2. **Indexing:** Zenit uses Sentence Transformers to generate embeddings for each text chunk. FAISS, a library for efficient similarity search, is used to create an index for these embeddings.
+2. **Indexing:** This program uses Sentence Transformers to generate embeddings for each text chunk. FAISS, a library for efficient similarity search, is used to create an index for these embeddings.
 3. **Querying and Response Generation:** Users can ask questions through the interface. The code retrieves relevant text chunks from the index based on the query embedding. Finally, it uses Groq, a natural language processing platform, to generate an answer based on the retrieved context and the user's query.
 
 ### Technology Explanation
@@ -55,7 +55,7 @@ This library is used to extract text content from uploaded PDF documents.
 
 **Sentence Transformers:**
 
-Sentence Transformers provide pre-trained models to generate numerical representations (embeddings) for text. These embeddings capture the semantic similarity between different pieces of text. Zenit uses the `all-MiniLM-L6-v2` model for this purpose.
+Sentence Transformers provide pre-trained models to generate numerical representations (embeddings) for text. These embeddings capture the semantic similarity between different pieces of text. This program uses the `all-MiniLM-L6-v2` model for this purpose.
 
 **FAISS:**
 
