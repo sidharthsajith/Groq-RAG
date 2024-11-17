@@ -23,7 +23,7 @@ A real-time Retrieval-Augmented Generation (RAG) application built with Streamli
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/sidharthsajith/Groq-RAG.git
 cd groq-rag
 ```
 
