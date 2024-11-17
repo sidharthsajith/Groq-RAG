@@ -1,82 +1,140 @@
-# Groq-RAG
-Ask questions, get answers from your documents in realtime using Groq and FAISS
-## Documentation
+# Groq RAG Application
 
-This document provides a comprehensive explanation of the code, including setup, workflow, and the technologies involved.
+A real-time Retrieval-Augmented Generation (RAG) application built with Streamlit and Groq. This application allows users to upload documents (PDF, DOCX, PPTX, TXT) and add website URLs to create a knowledge base, which can then be queried using natural language.
 
-### Setup
+## Features
 
-**Prerequisites:**
+- Support for multiple document formats (PDF, DOCX, PPTX, TXT)
+- Web crawling capability for adding online content
+- Real-time document processing with queuing system
+- Vector similarity search using FAISS
+- Integration with Groq's LLM API
+- Persistent storage of knowledge base
+- Interactive web interface built with Streamlit
 
-* Python 3.x
-* Streamlit
-* PyPDF2
-* sentence-transformers
-* faiss
-* numpy
-* groq
-* dotenv
-* pickle
+## Setup
 
-**Installation:**
+### Prerequisites
 
-1. Install the required libraries using pip:
+- Python 3.8 or higher
+- A Groq API key
 
+### Installation
+
+1. Clone the repository:
 ```bash
-pip install streamlit pypdf2 sentence-transformers faiss numpy groq dotenv pickle
+git clone <repository-url>
+cd groq-rag
 ```
 
-**Environment Variables:**
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
 
-1. Create a file named `.env` in your project directory.
-2. Add the following line to the `.env` file, replacing `<YOUR_GROQ_API_KEY>` with your actual Groq API key:
+# On Windows
+venv\Scripts\activate
 
+# On macOS/Linux
+source venv/bin/activate
 ```
-GROQ_API_KEY=<YOUR_GROQ_API_KEY>
+
+3. Install the required packages:
+```bash
+pip install -r requirements.txt
 ```
 
-### Workflow
+4. Create a `.env` file in the project root and add your Groq API key:
+```env
+GROQ_API_KEY=your_api_key_here
+```
 
-This code follows a three-step workflow:
+## Usage
 
-1. **Data Ingestion:** Users can upload PDF documents through the Streamlit interface. The code extracts text from these PDFs and splits them into smaller chunks.
-2. **Indexing:** This program uses Sentence Transformers to generate embeddings for each text chunk. FAISS, a library for efficient similarity search, is used to create an index for these embeddings.
-3. **Querying and Response Generation:** Users can ask questions through the interface. The code retrieves relevant text chunks from the index based on the query embedding. Finally, it uses Groq, a natural language processing platform, to generate an answer based on the retrieved context and the user's query.
+1. Start the application:
+```bash
+streamlit run app.py
+```
 
-### Technology Explanation
+2. Open your web browser and navigate to the provided URL (typically `http://localhost:8501`)
 
-**Streamlit:**
+3. Use the sidebar to:
+   - Upload documents (PDF, DOCX, PPTX, TXT)
+   - Add URLs for web crawling
+   - Process documents
+   - Clear the knowledge base if needed
 
-This program leverages Streamlit to create a user-friendly web application for document upload and querying. Streamlit allows for building interactive UIs with minimal coding effort.
+4. Ask questions in the main interface to query your knowledge base
 
-**PyPDF2:**
+## How It Works
 
-This library is used to extract text content from uploaded PDF documents.
+### Document Processing Pipeline
 
-**Sentence Transformers:**
+1. **Document Upload and URL Processing**
+   - Documents are uploaded through the Streamlit interface
+   - URLs are crawled to extract text content
+   - All content is queued for processing with a 30-second delay between documents
 
-Sentence Transformers provide pre-trained models to generate numerical representations (embeddings) for text. These embeddings capture the semantic similarity between different pieces of text. This program uses the `all-MiniLM-L6-v2` model for this purpose.
+2. **Text Extraction**
+   - PDFs: Uses `pypdf` to extract text from each page
+   - DOCX: Uses `python-docx` to extract text from paragraphs
+   - PPTX: Uses `python-pptx` to extract text from slides
+   - TXT: Direct text extraction
+   - Web pages: Uses `BeautifulSoup` to extract cleaned text content
 
-**FAISS:**
+3. **Text Processing**
+   - Content is split into chunks of approximately 1000 words
+   - Each chunk is converted into a vector embedding using the `all-MiniLM-L6-v2` model
+   - Embeddings are normalized and added to a FAISS index
 
-The Facebook AI Similarity Search (FAISS) library helps create an efficient index for the text embeddings. This allows for fast retrieval of relevant text chunks when a user submits a query.
+4. **Knowledge Base Management**
+   - Vector index and text chunks are saved to disk
+   - Can be loaded on application restart
+   - Clearable through the interface
 
-**NumPy:**
+### Query Processing
 
-NumPy provides essential numerical computing functionalities used throughout the code, especially for working with embeddings and distance calculations.
+1. **Question Input**
+   - User enters a natural language question
+   - Question is converted to a vector embedding
 
-**Groq:**
+2. **Retrieval**
+   - FAISS index searches for most similar text chunks
+   - Top 3 most relevant chunks are retrieved
+   - Source information is preserved
 
-The Groq platform is used for generating the final answer to the user's query. It takes the context retrieved from the index and the user's question as input and utilizes its natural language processing capabilities to provide a comprehensive response.
+3. **Response Generation**
+   - Retrieved chunks are combined into context
+   - Context and question are sent to Groq's LLM
+   - Response is generated and displayed with source references
 
-**dotenv:**
+### Technical Components
 
-This library helps manage environment variables securely, such as storing your Groq API key in a separate file.
+- **DocumentProcessor**: Main class handling all document processing and querying
+- **FAISS**: High-performance similarity search
+- **Sentence Transformers**: Document and query embedding
+- **Groq Integration**: LLM-based response generation
+- **Threading**: Background processing of documents
+- **Streamlit**: Web interface and user interaction
 
-**pickle:**
+## Architecture
 
-Pickle is used to store the text chunks and their corresponding source information for faster loading during subsequent use.
+The application follows a modular architecture:
+- Frontend: Streamlit web interface
+- Processing Layer: Document handling and embedding generation
+- Storage Layer: FAISS index and pickle storage
+- API Layer: Groq LLM integration
 
-### Conclusion
+## Limitations
 
-This program demonstrates a powerful combination of technologies for building a question-answering system. It extracts knowledge from documents, indexes them efficiently, and leverages NLP models to provide informative answers to user queries. `
+- Processing large documents may take significant time
+- Web crawling is rate-limited and basic
+- Knowledge base size is limited by available memory
+- Requires stable internet connection for Groq API access
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
